@@ -1,0 +1,218 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Kalkulator Cinta</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="calculator">
+        <div id="display-wrapper">
+            <input type="text" id="display" disabled />
+            <div id="scrolling-result"></div> <!-- Hasil yang berjalan -->
+            <div id="scrolling-text">JESUS LOVE YOU 🤩❤️</div> <!-- Teks berjalan -->
+        </div>
+        <div class="buttons">
+            <button onclick="clearDisplay()">C</button>
+            <button onclick="deleteDigit()">Del</button>
+            <button onclick="appendCharacter('%')">%</button>
+            <button onclick="appendCharacter('/')">/</button>
+            <button onclick="appendCharacter('7')">7</button>
+            <button onclick="appendCharacter('8')">8</button>
+            <button onclick="appendCharacter('9')">9</button>
+            <button onclick="appendCharacter('*')">*</button>
+
+            <button onclick="appendCharacter('4')">4</button>
+            <button onclick="appendCharacter('5')">5</button>
+            <button onclick="appendCharacter('6')">6</button>
+            <button onclick="appendCharacter('-')">-</button>
+
+            <button onclick="appendCharacter('1')">1</button>
+            <button onclick="appendCharacter('2')">2</button>
+            <button onclick="appendCharacter('3')">3</button>
+            <button onclick="appendCharacter('+')">+</button>
+
+            <button onclick="appendCharacter('0')">0</button>
+            <button onclick="appendCharacter('.')">.</button>
+            <button onclick="calculate()">=</button>
+        </div>
+    </div>
+
+    <!-- Audio untuk lagu cinta -->
+    <audio id="loveAudio">
+        <source src="jesusloveyou.mp3" type="audio/mp3">
+    </audio>
+
+    <script src="script.js"></script>
+</body>
+</html>
+
+<!-- CSS - style.css -->
+<style>
+body {
+    font-family: 'Arial', sans-serif;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    background: linear-gradient(135deg, #ff9a9e 0%, #fad0c4 100%);
+    margin: 0;
+}
+
+.calculator {
+    width: 100%;
+    max-width: 350px;
+    padding: 20px;
+    background: #fff;
+    box-shadow: 0px 0px 30px rgba(0, 0, 0, 0.2);
+    border-radius: 15px;
+    animation: float 2s infinite ease-in-out;
+}
+
+@keyframes float {
+    0% { transform: translateY(0px); }
+    50% { transform: translateY(-10px); }
+    100% { transform: translateY(0px); }
+}
+
+#display-wrapper {
+    position: relative;
+    height: 50px;
+}
+
+#display {
+    width: 100%;
+    height: 50px;
+    background: #f8f8f8;
+    border: none;
+    font-size: 24px;
+    text-align: right;
+    padding-right: 10px;
+    margin-bottom: 10px;
+    border-radius: 5px;
+    box-shadow: inset 0px 0px 5px rgba(0, 0, 0, 0.1);
+    transition: all 0.3s ease;
+    color: #1e90ff;
+}
+
+#scrolling-result {
+    display: none;
+    font-size: 24px;
+    color: #1e90ff;
+}
+
+#scrolling-text {
+    position: absolute;
+    top: 50%;
+    left: 100%;
+    white-space: nowrap;
+    font-size: 20px;
+    color: #1e90ff;
+    animation: scroll-text 8s linear infinite;
+    display: none; /* Awalnya tersembunyi */
+}
+
+@keyframes scroll-text {
+    from { left: 100%; }
+    to { left: -100%; }
+}
+
+.buttons {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    grid-gap: 10px;
+}
+
+button {
+    padding: 20px;
+    font-size: 18px;
+    border: none;
+    background: #1e90ff;
+    color: white;
+    border-radius: 10px;
+    cursor: pointer;
+    transition: transform 0.2s, background 0.3s ease;
+    box-shadow: 0px 5px 15px rgba(0, 0, 0, 0.1);
+}
+
+button:hover {
+    background: #ff69b4;
+    transform: scale(1.05);
+}
+
+button:active {
+    background: #ff1493;
+    transform: scale(0.98);
+}
+
+@media (max-width: 500px) {
+    .calculator {
+        max-width: 100%;
+    }
+
+    button {
+        padding: 15px;
+        font-size: 16px;
+    }
+
+    #display {
+        font-size: 20px;
+    }
+}
+</style>
+
+<!-- JavaScript - script.js -->
+<script>
+// Function to clear the display
+function clearDisplay() {
+    document.getElementById('display').value = '';
+    document.getElementById('scrolling-result').style.display = 'none'; // Sembunyikan hasil yang berjalan
+    document.getElementById('scrolling-text').style.display = 'none';   // Sembunyikan teks yang berjalan
+}
+
+// Function to delete the last digit
+function deleteDigit() {
+    let display = document.getElementById('display').value;
+    document.getElementById('display').value = display.slice(0, -1);
+}
+
+// Function to append characters to the display
+function appendCharacter(character) {
+    document.getElementById('display').value += character;
+}
+
+// Function to calculate the result
+function calculate() {
+    let display = document.getElementById('display').value;
+
+    try {
+        // Kalkulasi hasil perhitungan
+        let result = eval(display);
+
+        // Tampilkan hasil
+        document.getElementById('display').value = result;
+
+        // Tampilkan hasil selama 2 detik
+        setTimeout(function() {
+            document.getElementById('display').value = ''; // Kosongkan hasil
+            document.getElementById('scrolling-text').style.display = 'block'; // Tampilkan teks berjalan
+        }, 2000); // Setelah 2 detik, hilangkan hasil dan tampilkan teks berjalan
+
+        // Tampilkan hasil selama 2 detik
+        document.getElementById('scrolling-result').innerText = result;
+        document.getElementById('scrolling-result').style.display = 'block';
+
+        // Memutar lagu cinta
+        playLoveSong();
+    } catch (error) {
+        document.getElementById('display').value = 'Error';
+    }
+}
+
+// Function to play love song
+function playLoveSong() {
+    let audio = document.getElementById('loveAudio');
+    audio.play();
+}
+</script>
